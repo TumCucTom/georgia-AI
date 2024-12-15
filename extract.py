@@ -1,7 +1,7 @@
 import re
 
 # File path to the exported WhatsApp chat
-file_path = "all_messages.txt"
+file_path = "all-messages.txt"
 
 # Regular expression to match "Wordle y x/6" where y can have commas
 pattern = re.compile(r"Wordle (\d{1,3}(,\d{3})*?) (\d)/6")
