@@ -2,8 +2,8 @@ import re
 from collections import defaultdict
 
 # Input and output file paths
-input_file = "data/wordle-messages.txt"
-output_file = "data/pre-processed-messages.txt"
+input_file = "../data/wordle-messages.txt"
+output_file = "../data/pre-processed-messages.txt"
 
 # Regular expressions
 wordle_number_pattern = re.compile(r"Wordle (\d{1,3}(,\d{3})*?) \d/6")  # Extract Wordle number

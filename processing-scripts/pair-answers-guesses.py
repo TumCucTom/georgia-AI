@@ -1,9 +1,9 @@
 import re
 
 # File paths
-word_list_file = "data/answers.txt"  # First file with words and Wordle numbers
-wordle_data_file = "data/pre-processed-messages.txt"  # Second file with Wordle numbers and grids
-output_file = "data/pre-processed-data.txt"  # Output file
+word_list_file = "../data/answers.txt"  # First file with words and Wordle numbers
+wordle_data_file = "../data/pre-processed-messages.txt"  # Second file with Wordle numbers and grids
+output_file = "../data/pre-processed-data.txt"  # Output file
 
 # Dictionary to map Wordle numbers to their words
 wordle_words = {}
