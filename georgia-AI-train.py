@@ -5,8 +5,8 @@ import torch.optim as optim
 
 # Load the dataset, split into input (X) and output (y) variables
 dataset = np.loadtxt('data/NN-training-data.csv', delimiter=',')
-X = dataset[:,0:299]  # 300 inputs
-y = dataset[:,299:429]  # 130 output (should correspond to 5x26 letters)
+X = dataset[:,0:300]  # 300 inputs
+y = dataset[:,300:430]  # 130 output (should correspond to 5x26 letters)
 
 X = torch.tensor(X, dtype=torch.float32)
 y = torch.tensor(y, dtype=torch.long)  # Use long type for class indices (for CrossEntropyLoss)
@@ -54,13 +54,25 @@ for epoch in range(n_epochs):
         optimizer.zero_grad()
 
         # Forward pass
-        y_pred = model(Xbatch)
+        y_pred = model(Xbatch)  # Shape: [batch_size, 5, 26]
 
-        # Reshape target to match output: [batch_size, 5] of indices (not one-hot encoded)
-        ybatch_reshaped = ybatch.view(-1, 5)  # Reshape to 5 (letters per word)
+        # Reshape ybatch to represent 5 positions per word (batch_size, 5, num_classes)
+        # Here ybatch originally has shape [10, 130] (1 letter per word),
+        # but we need it in a shape of [10, 5, 26] (5 letters per word, 26 possible letters)
+
+        ybatch_reshaped = ybatch.view(-1, 5, 26)  # Reshape to [batch_size, 5, num_classes]
+
+        # Now apply argmax along the last dimension (num_classes) to get the indices of predicted letters
+        ybatch_indices = ybatch_reshaped.argmax(dim=-1)  # Shape: [batch_size, 5]
+
+        # Flatten ybatch_indices and y_pred for CrossEntropyLoss
+        ybatch_reshaped = ybatch_indices.view(-1)  # Flatten to [batch_size * 5] (e.g., [50])
+
+        # Reshape predictions as well
+        y_pred_reshaped = y_pred.view(-1, 26)  # Flatten y_pred to [batch_size * 5, num_classes]
 
         # Compute loss (CrossEntropyLoss will apply softmax internally)
-        loss = loss_fn(y_pred.view(-1, 26), ybatch_reshaped.view(-1))  # Flatten the output for CrossEntropyLoss
+        loss = loss_fn(y_pred_reshaped, ybatch_reshaped)  # CrossEntropyLoss expects flattened predictions and targets
         loss.backward()
         optimizer.step()
 
@@ -70,5 +82,14 @@ for epoch in range(n_epochs):
 with torch.no_grad():
     y_pred = model(X)
     y_pred_labels = y_pred.argmax(dim=-1)  # Get the predicted letter index (5 letters per word)
-    accuracy = (y_pred_labels == y.view(-1, 5)).float().mean()  # Compare predicted vs actual labels
+
+    # Reshape y to [batch_size, 5, 26] and then apply argmax to get the indices
+    y_reshaped = y.view(-1, 5, 26)  # Reshape y to [batch_size, 5, 26]
+    y_indices = y_reshaped.argmax(dim=-1)  # Get indices (shape: [batch_size, 5])
+
+    # Compare predicted vs actual labels
+    accuracy = (y_pred_labels == y_indices).float().mean()  # Compare predicted vs actual labels
+
 print(f"Accuracy {accuracy.item()}")
+
+
