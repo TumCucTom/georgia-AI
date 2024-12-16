@@ -46,3 +46,4 @@ cd processing-scripts
 ## Training
 
 ## Accuracy
+24.64% best 

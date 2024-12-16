@@ -25,5 +25,5 @@ class WordPredictor(nn.Module):
 
         return x
 
-model = torch.jit.load('model/model_scripted.pt')
+model = torch.jit.load('model_scripted.pt')
 model.eval()

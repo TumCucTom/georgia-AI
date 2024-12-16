@@ -4,9 +4,9 @@ import torch.nn as nn
 import torch.optim as optim
 
 # Load the dataset, split into input (X) and output (y) variables
-dataset = np.loadtxt('data/NN-training-data.csv', delimiter=',')
-X = dataset[:,0:300]  # 300 inputs
-y = dataset[:,300:430]  # 130 output (should correspond to 5x26 letters)
+dataset = np.loadtxt('data/expanded/NN-training-data.csv', delimiter=',')
+X = dataset[:,0:900]  # 300 inputs
+y = dataset[:,900:1030]  # 130 output (should correspond to 5x26 letters)
 
 X = torch.tensor(X, dtype=torch.float32)
 y = torch.tensor(y, dtype=torch.long)  # Use long type for class indices (for CrossEntropyLoss)
@@ -16,9 +16,10 @@ class WordPredictor(nn.Module):
         super(WordPredictor, self).__init__()
 
         # Define your hidden layers
-        self.fc1 = nn.Linear(300, 128)  # First hidden layer (300 input -> 512 output)
-        self.fc2 = nn.Linear(128, 64)  # Second hidden layer (512 input -> 256 output)
-        self.fc3 = nn.Linear(64, 130)  # Output layer (256 input -> 130 output)
+        self.fc1 = nn.Linear(900, 512)  # First hidden layer (300 input -> 512 output)
+        self.fc2 = nn.Linear(512, 256)  # Second hidden layer (512 input -> 256 output)
+        self.fc3 = nn.Linear(256, 128)  # Second hidden layer (512 input -> 256 output)
+        self.fc4 = nn.Linear(128, 130)  # Output layer (256 input -> 130 output)
 
         # Activation functions
         self.relu = nn.ReLU()
@@ -27,9 +28,10 @@ class WordPredictor(nn.Module):
         # Pass through hidden layers with ReLU activation
         x = self.relu(self.fc1(x))
         x = self.relu(self.fc2(x))
+        x = self.relu(self.fc3(x))
 
         # Output layer: Linear activation (softmax will be applied in loss function)
-        x = self.fc3(x)
+        x = self.fc4(x)
 
         # Reshape output to 5x26 (5 positions, 26 possible letters)
         x = x.view(-1, 5, 26)  # This will give you the shape [batch_size, 5, 26]
@@ -80,11 +82,11 @@ for epoch in range(n_epochs):
 
 
 # Parameters
-input_size = 300  # Number of input features
+input_size = 900  # Number of input features
 output_size = 130  # Number of output features (5 positions x 26 letters)
 num_positions = 5  # Number of letter positions in the output
 num_classes = 26  # Number of possible letters per position
-csv_file = "data/MINI-TEST.csv"  # Path to your CSV file
+csv_file = "data/expanded/MINI-TEST.csv"  # Path to your CSV file
 
 # Load dataset from CSV
 data = np.genfromtxt(csv_file, delimiter=',')
@@ -108,15 +110,37 @@ with torch.no_grad():
     y_reshaped = y.view(-1, 5, 26)  # Reshape y to [batch_size, 5, 26]
     y_indices = y_reshaped.argmax(dim=-1)  # Get indices (shape: [batch_size, 5])
 
+    ind_string = [[]]
+    pred_string = [[]]
+
+    # compare
+    for each in y_indices:
+        letters = []
+        for letter in each:
+            letters.append(chr(97+letter))
+        ind_string.append(letters)
+
+    for each in y_pred_labels:
+        letters = []
+        for letter in each:
+            letters.append(chr(97+letter))
+        pred_string.append(letters)
+
     # Compare predicted vs actual labels
     accuracy = (y_pred_labels == y_indices).float().mean()  # Compare predicted vs actual labels
-    print(y_pred_labels)
-    print(y_indices)
 
-print(f"Accuracy {accuracy.item()}")
+'''
+for i in range(len(ind_string)):
+    print(ind_string[i])
+    print(pred_string[i])
+    print("\n")
+
+'''
+
+print("Accuracy: ", accuracy)
 
 model_scripted = torch.jit.script(model) # Export to TorchScript
-model_scripted.save('model/model_scripted.pt') # Save
+model_scripted.save('model_scripted.pt') # Save
 
 
 
