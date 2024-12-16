@@ -16,9 +16,9 @@ class WordPredictor(nn.Module):
         super(WordPredictor, self).__init__()
 
         # Define your hidden layers
-        self.fc1 = nn.Linear(300, 512)  # First hidden layer (300 input -> 512 output)
-        self.fc2 = nn.Linear(512, 256)  # Second hidden layer (512 input -> 256 output)
-        self.fc3 = nn.Linear(256, 130)  # Output layer (256 input -> 130 output)
+        self.fc1 = nn.Linear(300, 128)  # First hidden layer (300 input -> 512 output)
+        self.fc2 = nn.Linear(128, 64)  # Second hidden layer (512 input -> 256 output)
+        self.fc3 = nn.Linear(64, 130)  # Output layer (256 input -> 130 output)
 
         # Activation functions
         self.relu = nn.ReLU()
@@ -78,6 +78,27 @@ for epoch in range(n_epochs):
 
     print(f'Finished epoch {epoch}, latest loss {loss}')
 
+
+# Parameters
+input_size = 300  # Number of input features
+output_size = 130  # Number of output features (5 positions x 26 letters)
+num_positions = 5  # Number of letter positions in the output
+num_classes = 26  # Number of possible letters per position
+csv_file = "data/MINI-TEST.csv"  # Path to your CSV file
+
+# Load dataset from CSV
+data = np.genfromtxt(csv_file, delimiter=',')
+if data.ndim == 1:  # If the file has a single row, reshape it
+    data = data.reshape(1, -1)
+
+# Split into input and output
+X = data[:, :input_size]  # First `input_size` columns for input features
+y = data[:, input_size:]  # Remaining columns for output labels
+
+# Convert to PyTorch tensors
+X = torch.tensor(X, dtype=torch.float32)
+y = torch.tensor(y, dtype=torch.float32)  # Keep float for one-hot encoding
+
 # Compute accuracy (no_grad is optional)
 with torch.no_grad():
     y_pred = model(X)
@@ -89,7 +110,15 @@ with torch.no_grad():
 
     # Compare predicted vs actual labels
     accuracy = (y_pred_labels == y_indices).float().mean()  # Compare predicted vs actual labels
+    print(y_pred_labels)
+    print(y_indices)
 
 print(f"Accuracy {accuracy.item()}")
+
+model_scripted = torch.jit.script(model) # Export to TorchScript
+model_scripted.save('model/model_scripted.pt') # Save
+
+
+
 
 
