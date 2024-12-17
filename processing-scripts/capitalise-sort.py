@@ -34,6 +34,6 @@ def process_words(file_path):
         return []
 
 # Example usage
-file_path = '../data/5-letter-words.txt'
+file_path = '../data/resources/5-letter-words.txt'
 sorted_words = process_words(file_path)
 write_array_to_file(file_path,sorted_words)

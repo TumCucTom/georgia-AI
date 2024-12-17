@@ -1,7 +1,7 @@
 import re
 
 # File path to the exported WhatsApp chat
-file_path = "../data/all-messages.txt"
+file_path = "../data/message-data/all-messages.txt"
 
 # Regular expression to match the start of a new message with a timestamp
 new_message_pattern = re.compile(r"^\[\d{2}/\d{2}/\d{4}, \d{2}:\d{2}:\d{2}\]")
@@ -37,7 +37,7 @@ if is_wordle_message and current_message:
     wordle_messages.append("".join(current_message).strip())
 
 # Save the extracted messages to a new file
-output_file = "../data/wordle-messages.txt"
+output_file = "../data/message-data/wordle-messages.txt"
 with open(output_file, "w", encoding="utf-8") as file:
     file.write("\n\n".join(wordle_messages))
 

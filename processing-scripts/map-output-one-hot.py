@@ -42,6 +42,6 @@ def process_csv(input_file, output_file):
             writer.writerow(new_row)
 
 # Usage
-input_file = '../data/NN-training-data-no-output.csv'  # Replace with your input file name
-output_file = '../data/NN-training-data.csv'  # Replace with your desired output file name
+input_file = '../data/message-data/NN-training-data-no-output.csv'  # Replace with your input file name
+output_file = '../data/training-data/train/NN-training-data.csv'  # Replace with your desired output file name
 process_csv(input_file, output_file)

@@ -1,8 +1,8 @@
 import csv
 
 # File paths
-processed_data_file = "../data/pre-processed-data.txt"  # Input file from the old script
-output_csv_file = "../data/NN-training-data-no-output.csv"  # Output CSV file
+processed_data_file = "../data/message-data/pre-processed-data.txt"  # Input file from the old script
+output_csv_file = "../data/message-data/NN-training-data-no-output.csv"  # Output CSV file
 
 # Open the input and output files
 with open(processed_data_file, "r", encoding="utf-8") as input_file, open(output_csv_file, "w", encoding="utf-8", newline="") as csv_file:

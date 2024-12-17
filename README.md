@@ -3,6 +3,8 @@
 ![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)
 ![logo](images/logo.jpg)
 # Georgia-AI
+[How to use](#setup-your-venv) | [Design and review](#performance)
+
 A machine learning AI that looks at a set of wordle results for a given day and tries to infer that days word given how people guessed.
 
 ## Overview
@@ -39,11 +41,22 @@ If you want to add to the data or replicate the process, here are the steps:
 cd processing-scripts
 ```
 
-## Input and Output structure
+## Performance
+### Overview
+### Speculation
+
+## Input and Output
+### Design
+### Justifications
 
 ## The model
+### Design
+### Justifications
 
 ## Training
+### Design
+### Justifications
 
 ## Accuracy
-24.64% best 
+28.72% best - one hot optimised
+28 real words with beam

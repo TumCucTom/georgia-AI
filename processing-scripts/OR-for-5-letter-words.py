@@ -34,8 +34,8 @@ def merge_and_write_five_letter_words(file1_path, file2_path, output_path):
         print(f"An error occurred while writing to {output_path}: {e}")
 
 # Example usage
-file1_path = '../data/5-letter-words.txt'  # Replace with your first file path
-file2_path = '../data/pre-processed-data.txt'  # Replace with your second file path
-output_path = '../data/5-letter-words.txt'  # Replace with your desired output file path
+file1_path = '../data/resources/5-letter-words.txt'  # Replace with your first file path
+file2_path = '../data/message-data/pre-processed-data.txt'  # Replace with your second file path
+output_path = '../data/resources/5-letter-words.txt'  # Replace with your desired output file path
 
 merge_and_write_five_letter_words(file1_path, file2_path, output_path)

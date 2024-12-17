@@ -1,0 +1,354 @@
+
+Processing input row 1:
+Top 10 words from beam search:
+1: DEITY (Score: 1.2904073376288683, Matches: 0/5)
+2: DAILY (Score: 0.6878500242727348, Matches: 0/5)
+
+Network's prediction (argmax): DAITY
+Expected word: WITCH
+Beam search accuracy: 0.00%
+NN accuracy: 0.00%
+
+Processing input row 2:
+Top 10 words from beam search:
+1: STALE (Score: 4.914431812184413, Matches: 2/5)
+2: STALK (Score: 4.567365530850232, Matches: 2/5)
+3: STARE (Score: 4.253790906652801, Matches: 2/5)
+4: SCALE (Score: 4.114267107353895, Matches: 2/5)
+5: STOLE (Score: 3.9076960257690345, Matches: 1/5)
+
+Network's prediction (argmax): STALM
+Expected word: SLANG
+Beam search accuracy: 40.00%
+NN accuracy: 40.00%
+
+Processing input row 3:
+Top 10 words from beam search:
+1: BRODY (Score: 3.3819984591084244, Matches: 1/5)
+2: BROVY (Score: 3.1018507246197133, Matches: 1/5)
+3: HRODY (Score: 3.0496779499680366, Matches: 1/5)
+4: SRODY (Score: 2.953795067591951, Matches: 1/5)
+5: HROVY (Score: 2.7695302154793255, Matches: 1/5)
+6: SROVY (Score: 2.67364733310324, Matches: 1/5)
+7: BRRDY (Score: 2.5746658527459454, Matches: 0/5)
+8: BROCY (Score: 2.5637033935593374, Matches: 2/5)
+9: BROHY (Score: 2.306904162173196, Matches: 1/5)
+10: BRRVY (Score: 2.294518118257234, Matches: 0/5)
+
+Network's prediction (argmax): BRODY
+Expected word: CHOCK
+Beam search accuracy: 20.00%
+NN accuracy: 20.00%
+
+Processing input row 4:
+Top 10 words from beam search:
+1: VIGOL (Score: 2.1032855966751516, Matches: 1/5)
+2: TIGOL (Score: 1.9846740756264634, Matches: 1/5)
+3: VIGUL (Score: 1.9431862278345822, Matches: 1/5)
+4: VIGOY (Score: 1.935751563073066, Matches: 1/5)
+5: TIGUL (Score: 1.824574706785894, Matches: 1/5)
+6: TIGOY (Score: 1.817140042024378, Matches: 1/5)
+7: VIGUY (Score: 1.7756521942324968, Matches: 1/5)
+8: VIGOT (Score: 1.7301719889627132, Matches: 1/5)
+9: VHGOL (Score: 1.711373844603592, Matches: 0/5)
+10: VIGHL (Score: 1.682840407270274, Matches: 1/5)
+
+Network's prediction (argmax): VIGOL
+Expected word: HIPPO
+Beam search accuracy: 20.00%
+NN accuracy: 20.00%
+
+Processing input row 5:
+Top 10 words from beam search:
+1: MONOA (Score: 2.608863124700406, Matches: 2/5)
+2: MOIOA (Score: 2.6069548968329865, Matches: 2/5)
+3: WONOA (Score: 2.44580370376946, Matches: 2/5)
+4: WOIOA (Score: 2.44389547590204, Matches: 2/5)
+5: MONOM (Score: 2.3022397992439165, Matches: 1/5)
+6: MOIOM (Score: 2.300331571376497, Matches: 1/5)
+7: WONOM (Score: 2.139180378312971, Matches: 1/5)
+8: WOIOM (Score: 2.1372721504455505, Matches: 1/5)
+9: MONOO (Score: 1.6503001681175222, Matches: 1/5)
+10: MOIOO (Score: 1.6483919402501028, Matches: 1/5)
+
+Network's prediction (argmax): MONOA
+Expected word: DOGMA
+Beam search accuracy: 40.00%
+NN accuracy: 40.00%
+
+Processing input row 6:
+Top 10 words from beam search:
+1: STOLE (Score: 5.127811144495771, Matches: 3/5)
+
+Network's prediction (argmax): SOOLE
+Expected word: SHOVE
+Beam search accuracy: 60.00%
+NN accuracy: 60.00%
+
+Processing input row 7:
+Top 10 words from beam search:
+1: DONLT (Score: 2.965838969321258, Matches: 1/5)
+2: DOULT (Score: 2.869368482136733, Matches: 1/5)
+3: DONLY (Score: 2.3071062382292618, Matches: 2/5)
+4: DONCT (Score: 2.257678922807025, Matches: 0/5)
+5: DINLT (Score: 2.2426299349167516, Matches: 2/5)
+6: FONLT (Score: 2.227106695046887, Matches: 1/5)
+7: DOULY (Score: 2.2106357510447365, Matches: 2/5)
+8: DOUCT (Score: 2.1612084356224996, Matches: 0/5)
+9: DIULT (Score: 2.146159447732226, Matches: 2/5)
+10: DONLH (Score: 2.1432551322061415, Matches: 1/5)
+
+Network's prediction (argmax): DONLT
+Expected word: HILLY
+Beam search accuracy: 20.00%
+NN accuracy: 20.00%
+
+Processing input row 8:
+Top 10 words from beam search:
+1: SIARH (Score: 1.2868869882094298, Matches: 0/5)
+2: SEARH (Score: 1.0354102826332119, Matches: 0/5)
+3: SIAIH (Score: 0.9909220665979797, Matches: 0/5)
+4: SHARH (Score: 0.8674542617177132, Matches: 0/5)
+5: RIARH (Score: 0.8463703500329554, Matches: 0/5)
+6: SIACH (Score: 0.7524029214565455, Matches: 0/5)
+7: SEAIH (Score: 0.7394453610217617, Matches: 0/5)
+8: REARH (Score: 0.5948936444567373, Matches: 0/5)
+9: SHAIH (Score: 0.5714893401062631, Matches: 0/5)
+10: RIAIH (Score: 0.5504054284215052, Matches: 0/5)
+
+Network's prediction (argmax): SIARH
+Expected word: HYENA
+Beam search accuracy: 0.00%
+NN accuracy: 0.00%
+
+Processing input row 9:
+Top 10 words from beam search:
+1: PINEY (Score: 2.7981359269242034, Matches: 0/5)
+2: PINKY (Score: 2.2165168876137806, Matches: 0/5)
+
+Network's prediction (argmax): PINEY
+Expected word: FLUNG
+Beam search accuracy: 0.00%
+NN accuracy: 0.00%
+
+Processing input row 10:
+Top 10 words from beam search:
+1: MIOON (Score: 2.467771857400883, Matches: 0/5)
+2: MINON (Score: 2.4021142439476115, Matches: 0/5)
+3: MIOOO (Score: 2.1210935264968436, Matches: 1/5)
+4: FIOON (Score: 2.079627206058578, Matches: 0/5)
+5: MINOO (Score: 2.0554359130435724, Matches: 1/5)
+6: MITON (Score: 2.0142859730913045, Matches: 1/5)
+7: FINON (Score: 2.0139695926053065, Matches: 0/5)
+8: MIOOL (Score: 1.8889636725674652, Matches: 0/5)
+9: MINOL (Score: 1.8233060591141936, Matches: 0/5)
+10: FIOOO (Score: 1.7329488751545385, Matches: 1/5)
+
+Network's prediction (argmax): MIOON
+Expected word: PATIO
+Beam search accuracy: 0.00%
+NN accuracy: 0.00%
+
+Processing input row 11:
+Top 10 words from beam search:
+1: BROCY (Score: 2.9263718438064634, Matches: 0/5)
+2: TROCY (Score: 2.7173817843886283, Matches: 0/5)
+3: BRRCY (Score: 2.5738017220577314, Matches: 0/5)
+4: TRRCY (Score: 2.3648116626398963, Matches: 0/5)
+5: BRNCY (Score: 2.1476719636368236, Matches: 0/5)
+6: TRNCY (Score: 1.9386819042189884, Matches: 0/5)
+7: BROCH (Score: 1.879772709720514, Matches: 0/5)
+8: TROCH (Score: 1.6707826503026788, Matches: 0/5)
+9: BROOY (Score: 1.6189788652403085, Matches: 0/5)
+10: BRRCH (Score: 1.5272025879717819, Matches: 0/5)
+
+Network's prediction (argmax): BROCY
+Expected word: PLUMB
+Beam search accuracy: 0.00%
+NN accuracy: 0.00%
+
+Processing input row 12:
+Top 10 words from beam search:
+1: GUNNY (Score: 2.525305759159919, Matches: 1/5)
+2: FUNNY (Score: 2.355623965288818, Matches: 1/5)
+
+Network's prediction (argmax): GUANY
+Expected word: VYING
+Beam search accuracy: 20.00%
+NN accuracy: 20.00%
+
+Processing input row 13:
+Top 10 words from beam search:
+1: RUTER (Score: 3.124949198697286, Matches: 2/5)
+2: RUTEY (Score: 2.909084270958912, Matches: 1/5)
+3: RITER (Score: 2.7498882273010667, Matches: 2/5)
+4: RURER (Score: 2.6609401313530032, Matches: 2/5)
+5: RITEY (Score: 2.5340232995626923, Matches: 1/5)
+6: RUREY (Score: 2.4450752036146293, Matches: 1/5)
+7: TUTER (Score: 2.377510680835395, Matches: 2/5)
+8: RIRER (Score: 2.285879159956784, Matches: 2/5)
+9: RUTEW (Score: 2.20379131722552, Matches: 1/5)
+10: TUTEY (Score: 2.1616457530970212, Matches: 1/5)
+
+Network's prediction (argmax): RUTER
+Expected word: BOXER
+Beam search accuracy: 40.00%
+NN accuracy: 40.00%
+
+Processing input row 14:
+Top 10 words from beam search:
+1: GROWY (Score: 3.2440123001739187, Matches: 2/5)
+2: GROTY (Score: 2.846132721798643, Matches: 2/5)
+3: CROWY (Score: 2.6331140574762677, Matches: 2/5)
+4: FROWY (Score: 2.6256156119880782, Matches: 2/5)
+5: GROZY (Score: 2.6131336637332927, Matches: 2/5)
+6: GRAWY (Score: 2.430970128920763, Matches: 1/5)
+7: CROTY (Score: 2.235234479100992, Matches: 2/5)
+8: FROTY (Score: 2.2277360336128025, Matches: 2/5)
+9: GRATY (Score: 2.033090550545487, Matches: 1/5)
+10: CROZY (Score: 2.0022354210356417, Matches: 2/5)
+
+Network's prediction (argmax): GROWY
+Expected word: DROOL
+Beam search accuracy: 40.00%
+NN accuracy: 40.00%
+
+Processing input row 15:
+Top 10 words from beam search:
+1: GOLLY (Score: 2.6312602539373726, Matches: 1/5)
+2: BULLY (Score: 2.218611947377601, Matches: 2/5)
+3: GULLY (Score: 2.0997547048762053, Matches: 2/5)
+
+Network's prediction (argmax): BOLLY
+Expected word: FUNKY
+Beam search accuracy: 20.00%
+NN accuracy: 20.00%
+
+Processing input row 16:
+Top 10 words from beam search:
+1: PIECE (Score: 1.6527268878029178, Matches: 1/5)
+
+Network's prediction (argmax): PIOCE
+Expected word: VISOR
+Beam search accuracy: 20.00%
+NN accuracy: 20.00%
+
+Processing input row 17:
+Top 10 words from beam search:
+1: DANDY (Score: 2.561177348417845, Matches: 2/5)
+
+Network's prediction (argmax): DAUDH
+Expected word: TALLY
+Beam search accuracy: 40.00%
+NN accuracy: 20.00%
+
+Processing input row 18:
+Top 10 words from beam search:
+1: BRASH (Score: 1.8867410079729452, Matches: 2/5)
+
+Network's prediction (argmax): WRASY
+Expected word: FRAIL
+Beam search accuracy: 40.00%
+NN accuracy: 40.00%
+
+Processing input row 19:
+Top 10 words from beam search:
+1: GOONY (Score: 1.2585323803025195, Matches: 3/5)
+
+Network's prediction (argmax): GOANY
+Expected word: GOING
+Beam search accuracy: 60.00%
+NN accuracy: 60.00%
+
+Processing input row 20:
+Top 10 words from beam search:
+1: AAIOT (Score: 3.672937015946136, Matches: 0/5)
+2: AAIHT (Score: 3.58069431734671, Matches: 1/5)
+3: AAIOE (Score: 3.412969877625059, Matches: 1/5)
+4: AACOT (Score: 3.3788835119405993, Matches: 1/5)
+5: AAIHE (Score: 3.320727179025633, Matches: 2/5)
+6: AACHT (Score: 3.286640813341174, Matches: 2/5)
+7: AACOE (Score: 3.1189163736195225, Matches: 2/5)
+8: AACHE (Score: 3.0266736750200973, Matches: 3/5)
+9: AATOT (Score: 2.7631551638250373, Matches: 0/5)
+10: AAIUT (Score: 2.7037331124518413, Matches: 0/5)
+
+Network's prediction (argmax): AAIOT
+Expected word: NICHE
+Beam search accuracy: 0.00%
+NN accuracy: 0.00%
+
+Processing input row 21:
+Top 10 words from beam search:
+1: SHOME (Score: 3.8891325548581612, Matches: 2/5)
+2: SHEME (Score: 3.8624596538096436, Matches: 2/5)
+3: SHOEE (Score: 3.800758849372727, Matches: 2/5)
+4: SHEEE (Score: 3.7740859483242093, Matches: 2/5)
+5: SHODE (Score: 3.216336502786841, Matches: 2/5)
+6: SHOMT (Score: 3.2065344864769108, Matches: 1/5)
+7: SHEDE (Score: 3.1896636017383235, Matches: 2/5)
+8: SHEMT (Score: 3.179861585428393, Matches: 1/5)
+9: SHYME (Score: 3.176210019199347, Matches: 2/5)
+10: SHOET (Score: 3.1181607809914764, Matches: 1/5)
+
+Network's prediction (argmax): SHOME
+Expected word: SPINE
+Beam search accuracy: 40.00%
+NN accuracy: 40.00%
+
+Processing input row 22:
+Top 10 words from beam search:
+1: CTARL (Score: 2.649164738675307, Matches: 3/5)
+2: CHARL (Score: 2.494775670353138, Matches: 3/5)
+3: CTERL (Score: 2.4406447899099315, Matches: 2/5)
+4: CHERL (Score: 2.2862557215877626, Matches: 2/5)
+5: CTPRL (Score: 2.063030311316929, Matches: 2/5)
+6: CHPRL (Score: 1.90864124299476, Matches: 2/5)
+7: STARL (Score: 1.770942074929531, Matches: 3/5)
+8: CNARL (Score: 1.7041446148716937, Matches: 3/5)
+9: CTARM (Score: 1.674465094715263, Matches: 2/5)
+10: SHARL (Score: 1.616553006607362, Matches: 3/5)
+
+Network's prediction (argmax): CTARL
+Expected word: PEARL
+Beam search accuracy: 60.00%
+NN accuracy: 60.00%
+
+Processing input row 23:
+Top 10 words from beam search:
+1: LOEEY (Score: 2.9542322464844615, Matches: 1/5)
+2: LONEY (Score: 2.9471451787790137, Matches: 1/5)
+3: LOWEY (Score: 2.9223535524161495, Matches: 1/5)
+4: LOEKY (Score: 2.865141496609482, Matches: 1/5)
+5: LONKY (Score: 2.858054428904034, Matches: 1/5)
+6: LOWKY (Score: 2.83326280254117, Matches: 1/5)
+7: DOEEY (Score: 2.7908122227695316, Matches: 1/5)
+8: DONEY (Score: 2.783725155064084, Matches: 1/5)
+9: DOWEY (Score: 2.7589335287012196, Matches: 1/5)
+10: DOEKY (Score: 2.701721472894552, Matches: 1/5)
+
+Network's prediction (argmax): LOEEY
+Expected word: JELLY
+Beam search accuracy: 20.00%
+NN accuracy: 20.00%
+
+Processing input row 24:
+Top 10 words from beam search:
+1: TWIST (Score: 2.1434224185198505, Matches: 5/5)
+
+Network's prediction (argmax): EWIST
+Expected word: TWIST
+Beam search accuracy: 100.00%
+NN accuracy: 80.00%
+
+Processing input row 25:
+Top 10 words from beam search:
+1: PUNKY (Score: 0.09317441900107959, Matches: 0/5)
+
+Network's prediction (argmax): PUIKY
+Expected word: BROWN
+Beam search accuracy: 0.00%
+NN accuracy: 0.00%
+
+Overall Beam Search Accuracy: 28.00%
+Overall NN Accuracy: 26.40%

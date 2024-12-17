@@ -1,5 +1,5 @@
-data/all-messages.txt
-data/wordle-messages.txt
+data/message-data/all-messages.txt
+data/message-data/wordle-messages.txt
 data/mock-data.csv
 env3.7
 .idea

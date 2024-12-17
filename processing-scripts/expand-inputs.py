@@ -38,7 +38,7 @@ def process_csv(input_file, output_file):
         csvwriter.writerows(processed_rows)
 
 # Example usage
-input_file = '../data/MINI-TEST.csv'  # Replace with your input file path
-output_file = '../data/expanded/MINI-TEST.csv'  # Replace with your desired output file path
+input_file = '../data/training-data/test/MINI-TEST-extensive-small.csv'  # Replace with your input file path
+output_file = '../data/training-data/test/MINI-TEST-extensive-large.csv'  # Replace with your desired output file path
 
 process_csv(input_file, output_file)
