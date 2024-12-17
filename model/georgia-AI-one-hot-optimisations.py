@@ -2,32 +2,43 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import torch.nn.functional as F
 
 # Load the dataset, split into input (X) and output (y) variables
 dataset = np.loadtxt('../data/expanded/NN-training-data.csv', delimiter=',')
-X = dataset[:,0:900]  # 300 inputs
-y = dataset[:,900:1030]  # 130 output (should correspond to 5x26 letters)
+X = dataset[:, 0:900]  # 900 inputs
+y = dataset[:, 900:1030]  # 130 output (should correspond to 5x26 letters)
 
 X = torch.tensor(X, dtype=torch.float32)
 y = torch.tensor(y, dtype=torch.long)  # Use long type for class indices (for CrossEntropyLoss)
+
+# Define smooth cross entropy loss
+def smooth_cross_entropy_loss(pred, target, smoothing=0.1):
+    n_class = pred.size(1)  # Number of classes (26)
+    one_hot = torch.zeros_like(pred).scatter(1, target.unsqueeze(1), 1)
+    one_hot = one_hot * (1.0 - smoothing) + (1.0 - one_hot) * (smoothing / (n_class - 1))
+    log_prob = F.log_softmax(pred, dim=1)
+    loss = -(one_hot * log_prob).sum(dim=1).mean()
+    return loss
+
 
 class ImprovedWordPredictor(nn.Module):
     def __init__(self):
         super(ImprovedWordPredictor, self).__init__()
 
         # Define layers
-        self.fc1 = nn.Linear(900, 1024)  # Increased the number of neurons in the first layer
-        self.fc2 = nn.Linear(1024, 512)  # Increased the number of neurons in the second layer
-        self.fc3 = nn.Linear(512, 256)   # Adding another layer for more complexity
-        self.fc4 = nn.Linear(256, 130)   # Output layer
+        self.fc1 = nn.Linear(900, 2048)  # Increased the number of neurons in the first layer
+        self.fc2 = nn.Linear(2048, 1024)  # Increased the number of neurons in the second layer
+        self.fc3 = nn.Linear(1024, 512)   # Adding another layer for more complexity
+        self.fc4 = nn.Linear(512, 130)    # Output layer
 
         # Batch normalization
-        self.bn1 = nn.BatchNorm1d(1024)
-        self.bn2 = nn.BatchNorm1d(512)
-        self.bn3 = nn.BatchNorm1d(256)
+        self.bn1 = nn.BatchNorm1d(2048)
+        self.bn2 = nn.BatchNorm1d(1024)
+        self.bn3 = nn.BatchNorm1d(512)
 
         # Dropout layers
-        self.dropout = nn.Dropout(p=0.3)
+        self.dropout = nn.Dropout(p=0.4)
 
         # Activation functions
         self.relu = nn.ReLU()
@@ -51,38 +62,52 @@ model = ImprovedWordPredictor()
 print(model)
 
 # Train the model
-loss_fn = nn.CrossEntropyLoss()  # Cross entropy loss expects raw logits
-optimizer = optim.Adam(model.parameters(), lr=0.001)
+loss_fn = smooth_cross_entropy_loss  # Use smooth cross-entropy
+
+# Create the Adam optimizer with weight decay (L2 regularization)
+optimizer = optim.Adam(model.parameters(), lr=0.0005, weight_decay=1e-5)
+
+# Create the CyclicLR scheduler without momentum cycling for Adam
+scheduler = torch.optim.lr_scheduler.CyclicLR(
+    optimizer,
+    base_lr=0.0001,  # Smaller base learning rate
+    max_lr=0.001,
+    step_size_up=2000,
+    mode='triangular',
+    cycle_momentum=False  # No need to cycle momentum for Adam
+)
 
 n_epochs = 100
-batch_size = 10
-
-scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', patience=5, factor=0.5)
+batch_size = 32  # Larger batch size for better gradient stability
 
 for epoch in range(n_epochs):
+    model.train()  # Set the model to training mode
     for i in range(0, len(X), batch_size):
-        Xbatch = X[i:i+batch_size]
-        ybatch = y[i:i+batch_size]
+        Xbatch = X[i:i + batch_size]
+        ybatch = y[i:i + batch_size]
         optimizer.zero_grad()
 
         # Forward pass
         y_pred = model(Xbatch)
 
         # Reshape ybatch to represent 5 positions per word (batch_size, 5, num_classes)
-        ybatch_reshaped = ybatch.view(-1, 5, 26)
-        ybatch_indices = ybatch_reshaped.argmax(dim=-1)
-        ybatch_reshaped = ybatch_indices.view(-1)
-        y_pred_reshaped = y_pred.view(-1, 26)
+        ybatch_reshaped = ybatch.view(-1, 5, 26)  # Shape: [batch_size, 5, 26]
+        ybatch_indices = ybatch_reshaped.argmax(dim=-1)  # Get the indices (shape: [batch_size, 5])
+        ybatch_reshaped = ybatch_indices.view(-1)  # Flatten to [batch_size * 5] (e.g., [50])
 
-        loss = loss_fn(y_pred_reshaped, ybatch_reshaped)
+        # Reshape predictions for loss computation
+        y_pred_reshaped = y_pred.view(-1, 26)  # Flatten y_pred to [batch_size * 5, num_classes]
+
+        # Compute loss with label smoothing
+        loss = smooth_cross_entropy_loss(y_pred_reshaped, ybatch_reshaped, smoothing=0.1)  # Smoothing factor
+
+        # Backpropagate
         loss.backward()
         optimizer.step()
 
     # Step the learning rate scheduler
     scheduler.step(loss)
     print(f'Finished epoch {epoch}, latest loss {loss}')
-
-
 
 # Parameters
 input_size = 900  # Number of input features
@@ -106,6 +131,7 @@ y = torch.tensor(y, dtype=torch.float32)  # Keep float for one-hot encoding
 
 # Compute accuracy (no_grad is optional)
 with torch.no_grad():
+    model.eval()  # Set the model to evaluation mode
     y_pred = model(X)
     y_pred_labels = y_pred.argmax(dim=-1)  # Get the predicted letter index (5 letters per word)
 
@@ -120,27 +146,19 @@ with torch.no_grad():
     for each in y_indices:
         letters = []
         for letter in each:
-            letters.append(chr(97+letter))
+            letters.append(chr(97 + letter))
         ind_string.append(letters)
 
     for each in y_pred_labels:
         letters = []
         for letter in each:
-            letters.append(chr(97+letter))
+            letters.append(chr(97 + letter))
         pred_string.append(letters)
 
     # Compare predicted vs actual labels
     accuracy = (y_pred_labels == y_indices).float().mean()  # Compare predicted vs actual labels
 
-'''
-for i in range(len(ind_string)):
-    print(ind_string[i])
-    print(pred_string[i])
-    print("\n")
-
-'''
-
 print("Accuracy: ", accuracy)
 
-model_scripted = torch.jit.script(model) # Export to TorchScript
-model_scripted.save('model_scripted.pt') # Save
+model_scripted = torch.jit.script(model)  # Export to TorchScript
+model_scripted.save('model_scripted.pt')  # Save
