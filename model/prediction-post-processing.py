@@ -39,7 +39,7 @@ class ImprovedWordPredictor(nn.Module):
 
 def load_dictionary(file_path):
     with open(file_path, 'r') as f:
-        words = set(f.read().splitlines())  # Read each word in the file and store it in a set for quick lookup
+        words = f.read().splitlines()  # Read each word in the file and store it in a list
     return words
 
 def beam_search_with_sampling(model, input_data, dictionary, beam_width=5, max_sequence_length=5, temperature=1.0, epsilon=1e-10):
@@ -106,23 +106,43 @@ input_data = input_data.astype(np.float32)  # Convert to float32 if needed
 output_file_path = '../data/results/beam-search-dict.txt'
 with open(output_file_path, 'w') as output_file:
 
+    # Initialize accuracy counters
+    total_beam_accuracy = 0
+    total_nn_accuracy = 0
+    num_rows = len(input_data)
+
     # Iterate over each input row in the file and run beam search
     for idx, row in enumerate(input_data):
         print(f"\nProcessing input row {idx + 1}:")
         output_file.write(f"\nProcessing input row {idx + 1}:\n")  # Write to file
 
+        # Separate features and the expected word index
+        expected_word_idx = int(row[-1])  # Last column contains the index of the expected word
+        input_features = row[:-1]  # All columns except the last one are features
+
+        # Retrieve the expected word from the dictionary using the index
+        expected_word = dictionary[expected_word_idx]  # Get the expected word from the dictionary
+
         # Run beam search to get the most probable letter sequence with sampling
-        beam_output, best_beam_word = beam_search_with_sampling(model, row, dictionary, beam_width=10, max_sequence_length=5, temperature=1.0)
+        beam_output, best_beam_word = beam_search_with_sampling(model, input_features, dictionary, beam_width=10, max_sequence_length=5, temperature=1.0)
 
         # Convert the output letter indices to actual characters (A=0, B=1, ..., Z=25)
         predicted_word = ''.join(chr(65 + letter) for letter in best_beam_word)
 
         # Get the network's argmax-based prediction
         with torch.no_grad():
-            input_tensor = torch.tensor(row, dtype=torch.float32).unsqueeze(0)
+            input_tensor = torch.tensor(input_features, dtype=torch.float32).unsqueeze(0)
             probabilities = model(input_tensor)  # Shape: [1, 5, 26]
             predicted_indices = probabilities.argmax(dim=-1)  # Get the predicted letter index (5 letters per word)
             predicted_word_argmax = ''.join(chr(65 + idx.item()) for idx in predicted_indices[0])
+
+        # Calculate accuracy for beam search (how many letters match with expected word)
+        beam_accuracy = sum(1 for i in range(5) if predicted_word[i] == expected_word[i]) / 5
+        total_beam_accuracy += beam_accuracy
+
+        # Calculate accuracy for NN (how many letters match with expected word)
+        nn_accuracy = sum(1 for i in range(5) if predicted_word_argmax[i] == expected_word[i]) / 5
+        total_nn_accuracy += nn_accuracy
 
         # Print out the 10 best words from beam search
         print("Top 10 words from beam search:")
@@ -135,3 +155,23 @@ with open(output_file_path, 'w') as output_file:
         # Print the word predicted by the network using argmax
         print(f"\nNetwork's prediction (argmax): {predicted_word_argmax}")
         output_file.write(f"\nNetwork's prediction (argmax): {predicted_word_argmax}\n")  # Write to file
+
+        # Print the expected word
+        print(f"Expected word: {expected_word}")
+        output_file.write(f"Expected word: {expected_word}\n")  # Write to file
+
+        # Print the accuracies for the row
+        print(f"Beam search accuracy: {beam_accuracy * 100:.2f}%")
+        print(f"NN accuracy: {nn_accuracy * 100:.2f}%")
+        output_file.write(f"Beam search accuracy: {beam_accuracy * 100:.2f}%\n")  # Write to file
+        output_file.write(f"NN accuracy: {nn_accuracy * 100:.2f}%\n")  # Write to file
+
+    # Calculate and print overall accuracies
+    overall_beam_accuracy = total_beam_accuracy / num_rows
+    overall_nn_accuracy = total_nn_accuracy / num_rows
+
+    print(f"\nOverall Beam Search Accuracy: {overall_beam_accuracy * 100:.2f}%")
+    print(f"Overall NN Accuracy: {overall_nn_accuracy * 100:.2f}%")
+
+    output_file.write(f"\nOverall Beam Search Accuracy: {overall_beam_accuracy * 100:.2f}%\n")
+    output_file.write(f"Overall NN Accuracy: {overall_nn_accuracy * 100:.2f}%\n")
