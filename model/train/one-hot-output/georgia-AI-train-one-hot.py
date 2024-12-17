@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 
 # Load the dataset, split into input (X) and output (y) variables
-dataset = np.loadtxt('data/expanded/NN-training-data.csv', delimiter=',')
+dataset = np.loadtxt('data/expanded/NN-training-data-expanded.csv', delimiter=',')
 X = dataset[:,0:900]  # 300 inputs
 y = dataset[:,900:1030]  # 130 output (should correspond to 5x26 letters)
 
@@ -86,7 +86,7 @@ input_size = 900  # Number of input features
 output_size = 130  # Number of output features (5 positions x 26 letters)
 num_positions = 5  # Number of letter positions in the output
 num_classes = 26  # Number of possible letters per position
-csv_file = "data/expanded/MINI-TEST.csv"  # Path to your CSV file
+csv_file = "data/expanded/MINI-TEST-expanded.csv"  # Path to your CSV file
 
 # Load dataset from CSV
 data = np.genfromtxt(csv_file, delimiter=',')

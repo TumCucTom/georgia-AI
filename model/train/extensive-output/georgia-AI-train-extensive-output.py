@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 
 # Load the dataset, split into input (X) and output (y) variables
-dataset = np.loadtxt('../data/expanded/NN-training-data-not-one-hot.csv', delimiter=',')
+dataset = np.loadtxt('../data/expanded/NN-training-data-not-one-hot-expanded.csv', delimiter=',')
 X = dataset[:, 0:900]  # 900 inputs
 y = dataset[:, 900]  # Single integer class index per sample (5757 classes)
 
@@ -85,7 +85,7 @@ for epoch in range(n_epochs):
 # Parameters
 input_size = 900
 output_size = 5757
-csv_file = "../data/expanded/MINI-TEST-extensive.csv"
+csv_file = "../../../data/training-data/test/MINI-TEST-extensive-large.csv"
 
 # Load dataset for testing
 data = np.genfromtxt(csv_file, delimiter=',')
@@ -101,7 +101,7 @@ X_test = torch.tensor(X_test, dtype=torch.float32)
 y_test = torch.tensor(y_test, dtype=torch.long)
 
 # Load the list of words from the file
-with open('../data/5-letter-words.txt', 'r') as f:
+with open('../../../data/resources/5-letter-words.txt', 'r') as f:
     word_list = [line.strip() for line in f]  # Strip newline characters
 
 # Ensure the word list size matches the output size

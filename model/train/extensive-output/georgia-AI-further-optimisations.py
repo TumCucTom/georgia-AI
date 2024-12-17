@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 
 # Load the dataset
-dataset = np.loadtxt('../data/expanded/NN-training-data-not-one-hot.csv', delimiter=',')
+dataset = np.loadtxt('../data/expanded/NN-training-data-not-one-hot-expanded.csv', delimiter=',')
 X = dataset[:, 0:900]  # 900 inputs
 y = dataset[:, 900]    # Single integer class index per sample (5757 classes)
 
@@ -111,11 +111,11 @@ for epoch in range(n_epochs):
     print(f"Epoch {epoch+1}/{n_epochs}, Loss: {loss.item():.4f}")
 
 # Load word list
-with open('../data/5-letter-words.txt', 'r') as f:
+with open('../../../data/resources/5-letter-words.txt', 'r') as f:
     word_list = [line.strip() for line in f]
 
 # Testing accuracy (letter-level)
-data = np.genfromtxt("../data/expanded/MINI-TEST-extensive.csv", delimiter=',')
+data = np.genfromtxt("../data/expanded/MINI-TEST-extensive-large.csv", delimiter=',')
 if data.ndim == 1:  # Reshape single row
     data = data.reshape(1, -1)
 
