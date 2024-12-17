@@ -41,7 +41,11 @@ class WordPredictor(nn.Module):
         # Activation
         self.swish = nn.SiLU()  # Swish activation for smoother gradients
 
-        # Initialize weights
+        self.fc_proj = nn.Linear(2048, 1024)  # Projection layer for the first residual connection
+        self.fc_proj2 = nn.Linear(512, 256)   # Projection layer for the second residual connection
+
+
+# Initialize weights
         self._initialize_weights()
 
     def forward(self, x):
@@ -52,7 +56,10 @@ class WordPredictor(nn.Module):
         # Block 2 with skip connection
         x2 = self.swish(self.ln2(self.fc2(x1)))
         x2 = self.dropout(x2)
-        x2 = x2 + x1  # Residual connection
+
+        # Projection layer to match dimensions of x2
+        x1_proj = self.fc_proj(x1)  # Project x1 to 1024 units
+        x2 = x2 + x1_proj           # Residual connection
 
         # Block 3
         x3 = self.swish(self.ln3(self.fc3(x2)))
@@ -61,11 +68,15 @@ class WordPredictor(nn.Module):
         # Block 4 with another residual connection
         x4 = self.swish(self.ln4(self.fc4(x3)))
         x4 = self.dropout(x4)
-        x4 = x4 + x3  # Residual connection
+
+        # Projection layer to match dimensions of x4
+        x3_proj = self.fc_proj2(x3)  # Project x3 to 256 units
+        x4 = x4 + x3_proj            # Residual connection
 
         # Output
         logits = self.fc_out(x4)
         return logits
+
 
     def _initialize_weights(self):
         # Use He initialization for better weight initialization
