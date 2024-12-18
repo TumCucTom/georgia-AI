@@ -53,8 +53,6 @@ We can look at ```data/results/beam-serach-dict.txt``` to see that:
   - Probably as a product of those being the underlying words for first guesses for most people, so makes up a large portion of the underlying patterns in the data. 
 - It also struggles differentiating between word endings where people tend to take a lot of guess with the same ending ‘ly’ ’ch’ ‘ck’ ‘dy' etc.
 ## Input and Output
-The inputs for the Wordle AI have evolved a lot over time. Initially, the model only took in a single guess. But as I worked on improving it, I started feeding it up to 10 guesses. This allowed the AI to take a broader look at the possible solutions and make more informed decisions. With this extra data, the model can better track which letters are likely in the word, where they might go, and which ones are definitely not in the solution.
-
 Before using one variable for whether each letter of each guess is each colour, I use one variable for each letter of every guess only, with 0 representing black or white, 1 representing yellow and 2 representing green. This produced around 17% accuracy.
 
 The output of the Wordle AI is a probability distribution over all 5-letter words, and it's one-hot encoded to make it easier to work with. Instead of directly outputting a list of 5757 possible words, the model represents the probability of each word using a vector, where each element corresponds to a word in the list. This one-hot encoding allows for a more compact and efficient way of handling the output, making it quicker to compute and easier to integrate with the model’s decision-making process.
@@ -115,31 +113,31 @@ The model employs He initialization (via `kaiming_uniform_`) for the weight matr
 - **Learning Rate Scheduling**: The cyclic learning rate scheduler allows for better convergence by adjusting the learning rate during training.
 - **Accuracy Calculation**: The model's accuracy is evaluated based on how well it predicts each letter in the 5-letter word, ensuring fine-grained evaluation.
 - **TorchScript Export**: The trained model is exported for use in production environments without relying on Python.
-### 1. **Dataset Preparation**
+#### 1. **Dataset Preparation**
 
 The dataset is loaded from a CSV file using NumPy's `np.loadtxt` function, where the first 900 columns are used as input features (`X`), and the last 130 columns represent the output (`y`), which corresponds to a 5-letter word with 26 possible letter classes for each position (i.e., 5 positions, each having 26 letters). The input data `X` is converted into a PyTorch tensor of type `float32`, while the target labels `y` are converted into a tensor of type `long` (for use with the `CrossEntropyLoss`).
 
-### 2. **Smooth Cross-Entropy Loss Function**
+#### 2. **Smooth Cross-Entropy Loss Function**
 
 A custom loss function, `smooth_cross_entropy_loss`, is defined to implement label smoothing. Label smoothing helps regularize the model by softening the target labels, which in turn prevents overfitting and improves generalization. In the function:
 - The one-hot encoded labels are adjusted by the smoothing factor (`smoothing=0.1`).
 - The predicted logits are passed through `log_softmax`, and the loss is computed by calculating the cross-entropy between the predicted and the smoothed target labels.
 - This loss is then averaged over the batch, which helps in the model training process by allowing smoother gradients.
 
-### 3. **Model Architecture**
+#### 3. **Model Architecture**
 
 The `ImprovedWordPredictor` model is designed with four fully connected layers (`fc1` to `fc4`) and includes batch normalization layers (`bn1`, `bn2`, `bn3`) to stabilize training. The model incorporates:
 - **Dropout**: A dropout layer with a rate of 0.4 is used after each hidden layer to prevent overfitting and improve generalization.
 - **ReLU Activation**: ReLU is applied after each hidden layer to introduce non-linearity, which allows the model to capture complex patterns in the data.
 - The output of the network (`fc4`) has a shape of `[batch_size, 130]`, representing the 5 positions (for each letter) and 26 possible classes (letters). The output is reshaped to match this 5x26 format, suitable for multi-class classification over multiple positions in the word.
 
-### 4. **Training Setup**
+#### 4. **Training Setup**
 
 - **Loss Function**: The model uses the previously defined smooth cross-entropy loss.
 - **Optimizer**: The Adam optimizer (`optim.Adam`) is used with a learning rate of `0.0005` and weight decay of `1e-5` for L2 regularization. The optimizer helps update the model's parameters efficiently during backpropagation.
 - **Learning Rate Scheduler**: A **CyclicLR scheduler** is used to adjust the learning rate during training. The learning rate oscillates between a minimum (`base_lr=0.0001`) and maximum (`max_lr=0.001`) value, helping the model escape local minima and achieve better convergence.
 
-### 5. **Training Loop**
+#### 5. **Training Loop**
 
 The model is trained over `100` epochs with a batch size of `32`. For each epoch:
 - The model is set to training mode (`model.train()`), and mini-batches of size 32 are fed into the model.
@@ -151,7 +149,7 @@ The model is trained over `100` epochs with a batch size of `32`. For each epoch
 - The learning rate scheduler is stepped (`scheduler.step(loss)`) to adjust the learning rate based on the loss value.
 - The loss for each epoch is printed to track training progress.
 
-### 6. **Evaluation and Accuracy Calculation**
+#### 6. **Evaluation and Accuracy Calculation**
 
 After training, the model is evaluated on a separate test dataset. The test dataset is loaded and split into input features (`X`) and output labels (`y`). The input features are passed through the model in evaluation mode (`model.eval()`), and the predictions are computed.
 
@@ -159,7 +157,7 @@ The predicted labels are compared with the actual labels, with accuracy being ca
 - Applying `argmax` on both the predicted and actual labels to get the predicted letter indices for each position.
 - Calculating the accuracy by comparing the predicted indices with the actual ones and computing the mean accuracy.
 
-### 7. **Exporting the Model**
+#### 7. **Exporting the Model**
 
 After the model is trained and evaluated, it is exported to **TorchScript** format using `torch.jit.script`, which allows the model to be deployed and used in production environments without needing the full PyTorch framework. The scripted model is saved as `model_scripted.pt`.
 
