@@ -36,10 +36,28 @@ If you want to add to the data or replicate the process, here are the steps:
 
 - Export whatsapp chat without media
 - Rename the file to all-messages and put it under ```/data```
-- Run:
-```angular2html
-cd processing-scripts
+- You can now use the processing scripts to change you data depending on what model you wish to use
+- Each script has a docstring explaining what it will do to the data where it will be outputted and if a second file is needed
+- You can find the 5757 5 letter words and all wordle answers up to 12/12/2024 in the resource folder
+
+## Using georgia-AI
+Train one of the models under model/train. Find out more on these in the [train](#training) area.
+
+Add your input in the correct format for the model you trained in `data/input.csv`.
+
+Run georgia-AI with:
 ```
+cd model
+source env3.7/bin/activate
+python3 georgia-AI.py
+```
+or
+```
+cd model
+source env3.7/Scripts/activate
+python3 georgia-AI.py
+```
+You will find the results in `data/results`
 
 ## Performance
 ### Overview
