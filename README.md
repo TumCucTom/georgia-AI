@@ -88,11 +88,11 @@ We can look at ```data/results/beam-serach-dict.txt``` to see that:
 ## Input and Output
 Before using one variable for whether each letter of each guess is each colour, I use one variable for each letter of every guess only, with 0 representing black or white, 1 representing yellow and 2 representing green. This produced around 17% accuracy.
 
-The output of the Wordle AI is a probability distribution over all 5-letter words, and it's one-hot encoded to make it easier to work with. Instead of directly outputting a list of 5757 possible words, the model represents the probability of each word using a vector, where each element corresponds to a word in the list. This one-hot encoding allows for a more compact and efficient way of handling the output, making it quicker to compute and easier to integrate with the model’s decision-making process.
+The output of the NN is a probability distribution over all 5-letter words, and is one-hot encoded, origionally, to make it easier to work with but also found to be more accurate thsn an extensive list. Instead of directly outputting a list of 5757 possible words, the model represents the probability of each word using a vector, where each element corresponds to a word in the list. This one-hot encoding allows for a more compact and efficient way of handling the output, making it quicker to compute and easier to integrate with the model’s decision-making process.
 
 One big advantage of this approach over the extensive 5757-word list is that it simplifies the calculations. Instead of needing to manage the entire list at once, the one-hot encoding lets the model focus on the relevant probabilities and make updates more easily after each guess. Plus, it reduces the complexity of the output space, which can help in speeding up the learning process and improving the AI’s ability to predict the correct word more efficiently.
 
-The one-hot with larger input gave 28% and extensive 22%. We can softmax then argmax over the output to get the most likely letters but that's not entirely useful so we use beam search [later](#processing-the-data)
+The one-hot with larger input gave 28% and extensive 22%. We can softmax then argmax over the output to get the most likely letters but that's not entirely useful so we use beam search [later](#processing-the-data).
 
 ## The model
 ### One-hot
@@ -127,11 +127,11 @@ Dropout is applied after each hidden layer to prevent overfitting. A dropout rat
 
 #### 4. **Swish Activation**
 
-The model uses the Swish activation function (denoted as `SiLU` in PyTorch) instead of traditional activation functions like ReLU. Swish has been found to outperform ReLU in many cases because it allows for smoother gradients, especially for deeper networks. The smooth, non-monotonic nature of Swish helps improve optimization by reducing the likelihood of dead neurons (a problem associated with ReLU) and ensuring a more stable gradient flow throughout the network. This contributes to the model’s ability to learn more effectively, particularly in complex tasks like word prediction.
+The model uses the Swish activation function (denoted as `SiLU` in PyTorch) instead of traditional activation functions like ReLU. Swish has been found to outperform ReLU in many cases because it allows for smoother gradients, especially for deeper networks. The smooth, non-monotonic nature of Swish helps improve optimization by reducing the likelihood of dead neurons (a problem associated with ReLU) and ensuring a more stable gradient flow throughout the network. This contributes to the model’s ability to learn more effectively, particularly in complex tasks like word prediction and infering complex underlying patterns.
 
 #### 5. **Output Layer**
 
-The output layer, `fc_out`, is a fully connected layer that maps the final representation (of size 256) to 5757 units, corresponding to the size of the output vocabulary. This large number of units likely corresponds to the total number of possible words or tokens in the model's vocabulary. The output of this layer represents the logits, which are later converted to probabilities using softmax during the loss computation. This layer is crucial for the final classification task, where each unit corresponds to the likelihood of a specific word or token.
+The output layer, `fc_out`, is a fully connected layer that maps the final representation (of size 256) to 5757 units, corresponding to the size of the output vocabulary. This large number of units likely corresponds to the total number of possible words or tokens in the model's vocabulary. The output of this layer represents the logits, which are later converted to probabilities using softmax during the loss computation. This layer is crucial for the final classification task, where each unit corresponds to the likelihood of a specific word or token - in this case 5 letter word.
 
 #### 6. **Weight Initialization**
 
