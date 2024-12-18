@@ -3,9 +3,23 @@
 ![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)
 ![logo](images/logo.jpg)
 # Georgia-AI
-[How to use](#setup-your-venv) | [Design and review](#performance)
+[How to use](#using-georgia-ai) | [Design and review](#performance)
 
 A machine learning AI that looks at a set of wordle results for a given day and tries to infer that days word given how people guessed.
+
+
+- [Overview](#overview)
+- [Using georgia-AI](#using-georgia-ai)
+- [Performance](#performance)
+- [Input and Output](#input-and-output)
+- [The model](#the-model)
+  - [One-hot](#one-hot)
+  - [Extensive](#extensive)
+- [Training](#training)
+  - [One-hot](#one-hot-1)
+  - [Extensive](#extensive-1)
+- [Future of georgia-AI](#future-of-georgia-ai)
+
 
 ## Overview
 We give our bot an input representing several wordle results (the format shown below). We return a probability ditributed over the five letter words, giving the most likely words for that day.
@@ -41,6 +55,7 @@ If you want to add to the data or replicate the process, here are the steps:
 - You can find the 5757 5 letter words and all wordle answers up to 12/12/2024 in the resource folder
 
 ## Using georgia-AI
+Make sure you've done [data processing](#processing-the-data) and [virtual environment](#setup-your-venv) setup first.
 Train one of the models under model/train. Find out more on these in the [train](#training) area.
 
 Add your input in the correct format for the model you trained in `data/input.csv`.
