@@ -238,4 +238,6 @@ During evaluation, the model's predictions are obtained by performing a forward 
 **Letter-level accuracy** is then computed by comparing each predicted word to the actual word from the test set. For each word, the number of matching letters is counted, and the total accuracy is calculated as the ratio of correctly predicted letters to the total number of letters in the dataset. This provides a more granular evaluation of the model's performance, focusing on how well it predicts individual letters within words.
 
 ## Future of georgia-AI
+Improve performance
+
 Package up and setup APIs/bots to integrate with popular instant messaging apps - giving participants guesses based on all results from previous day.
